@@ -1,0 +1,171 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: flex-end; /* Posisikan chatbot di kanan bawah */
+    align-items: flex-end;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f2f5;
+}
+
+/* Chatbot Container */
+.chatbot-popup {
+    width: 350px;
+    height: 550px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    transition: all 0.3s ease;
+}
+
+.chatbot-popup.minimized {
+    height: 50px; /* Hanya header yang terlihat */
+}
+
+/* Header */
+.chat-header {
+    background-color: #5b3092; /* Warna khas Gemini/Google */
+    color: white;
+    padding: 5px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.close-btn {
+    cursor: pointer;
+}
+
+/* Body Pesan */
+.chat-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 17px;
+    background-color: #e5e5f7;
+    transition: height 0.3s ease;
+}
+
+.chatbot-popup.minimized .chat-body,
+.chatbot-popup.minimized #chat-form,
+.chatbot-popup.minimized .image-preview-container {
+    display: none;
+}
+
+/* Gaya Pesan */
+.messages {
+    margin-bottom: 10px;
+    display: flex;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.message-text {
+    padding: 8px 12px;
+    border-radius: 18px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.user-message {
+    margin-left: auto;
+    justify-content: flex-end;
+}
+.user-message .message-text {
+    background-color: #5b3092;
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+.bot-message {
+    margin-right: auto;
+    justify-content: flex-start;
+}
+.bot-message .message-text {
+    background-color: #ffffff;
+    color: #333;
+    border-bottom-left-radius: 2px;
+}
+
+/* Input Area */
+#chat-form {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+.main-input-row {
+    display: flex;
+    align-items: center;
+}
+#message-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    margin: 0 8px;
+    background-color: #f0f2f5;
+    outline: none;
+}
+.icon-button {
+    background: none;
+    border: none;
+    color: #5b3092;
+    cursor: pointer;
+    padding: 5px;
+}
+.send-button {
+    background-color: #5b3092;
+    color: white;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.upload-icon {
+    font-size: 24px;
+}
+
+/* Indikator Mengetik */
+.typing-indicator {
+    opacity: 0.6;
+}
+
+/* Pratinjau Gambar */
+.image-preview-container {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #eee;
+    background-color: #f9f9f9;
+}
+.image-preview-container img {
+    max-width: 80px;
+    max-height: 60px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+.image-preview-container button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: auto;
+}
+/* Gaya untuk gambar yang dikirim di chat body */
+.message-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 5px;
+    display: block;
+}

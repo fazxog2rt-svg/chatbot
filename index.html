@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot | @amaulianiscf</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <div class="chatbot-popup" id="chatbot-popup">
+        <div class="chat-header">
+            <h3>🤖 Ama Chatbot</h3>
+            <span class="material-icons close-btn">arrow_downward</span>
+        </div>
+        
+        <div class="chat-body" id="chat-body">
+            </div>
+
+        <div id="image-preview-container" class="image-preview-container"></div>
+        
+        <form id="chat-form">
+            <div class="main-input-row">
+                <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                <button type="button" class="icon-button material-icons" id="voice-input-btn">mic</button>
+                <label for="image-upload" class="icon-button material-icons upload-icon">image</label> 
+                <input type="text" id="message-input" placeholder="Ketik pesan Anda atau tanyakan tentang gambar...">              
+                <button type="submit" class="icon-button send-button material-icons" id="chat-submit-button">send</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
