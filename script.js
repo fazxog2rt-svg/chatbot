@@ -91,7 +91,9 @@ const getGeminiVisionResponse = async (userMessage, base64Image, mimeType) => {
                     }
                 ],
                 generationConfig: {
-                    maxOutputTokens: 1000
+                    temperature: 0.8,
+                  maxOutputTokens: 4096
+}
                 }
             }),
         });
