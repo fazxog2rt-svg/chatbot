@@ -11,6 +11,7 @@ const imageUpload = document.getElementById('image-upload');
 let imageBase64Data = null;
 let imageMimeType = null;
 
+// ================= UI FUNCTION =================
 const createMessageElement = (message, type) => {
     const wrapper = document.createElement('div');
     wrapper.classList.add('messages', `${type}-message`);
@@ -42,7 +43,7 @@ const getGeminiResponse = async (userMessage) => {
                 ],
                 generationConfig: {
                     temperature: 0.7,
-                    maxOutputTokens: 1000
+                    maxOutputTokens: 2048
                 }
             }),
         });
@@ -50,18 +51,12 @@ const getGeminiResponse = async (userMessage) => {
         const data = await response.json();
         console.log("FULL RESPONSE:", data);
 
-        if (data.error) {
-            return `Error: ${data.error.message}`;
-        }
+        if (data.error) return data.error.message;
 
-        // ✅ FIX: gabung semua parts biar gak kepotong
-        if (data.candidates?.length) {
-            return data.candidates[0].content.parts
-                .map(p => p.text || "")
-                .join("");
-        }
-
-        return "AI tidak mengembalikan respon.";
+        return data.candidates?.[0]?.content?.parts
+            ?.map(p => p.text || "")
+            .join("")
+            || "AI tidak mengembalikan respon.";
 
     } catch (error) {
         console.error(error);
@@ -92,8 +87,7 @@ const getGeminiVisionResponse = async (userMessage, base64Image, mimeType) => {
                 ],
                 generationConfig: {
                     temperature: 0.8,
-                  maxOutputTokens: 4096
-}
+                    maxOutputTokens: 4096
                 }
             }),
         });
@@ -102,7 +96,6 @@ const getGeminiVisionResponse = async (userMessage, base64Image, mimeType) => {
 
         if (data.error) return data.error.message;
 
-        // ✅ FIX: jangan cuma ambil [0]
         return data.candidates?.[0]?.content?.parts
             ?.map(p => p.text || "")
             .join("")
@@ -134,7 +127,7 @@ const handleChat = async (e) => {
 
     if (imageBase64Data) {
         botResponse = await getGeminiVisionResponse(userMessage, imageBase64Data, imageMimeType);
-        imageBase64Data = null; // reset
+        imageBase64Data = null;
     } else {
         botResponse = await getGeminiResponse(userMessage);
     }
@@ -150,6 +143,8 @@ const handleChat = async (e) => {
 // ================= IMAGE =================
 imageUpload.addEventListener('change', function(e) {
     const file = e.target.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
 
     reader.onload = function(event) {
@@ -165,7 +160,9 @@ imageUpload.addEventListener('change', function(e) {
 chatForm.addEventListener('submit', handleChat);
 
 document.addEventListener('DOMContentLoaded', () => {
-    chatBody.appendChild(
-        createMessageElement("Halo! Saya Ama Chatbot. Tanyakan apapun akan saya jawab!", 'bot')
-    );
+    if (chatBody) {
+        chatBody.appendChild(
+            createMessageElement("Halo! Saya Ama Chatbot. Tanyakan apapun akan saya jawab!", 'bot')
+        );
+    }
 });
