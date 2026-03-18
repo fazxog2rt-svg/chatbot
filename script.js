@@ -1,4 +1,4 @@
-const GEMINI_API_KEY = "AIzaSyAcxpsg_2vOXDffHsjuJ5TVyszZWhTztZM";
+const GEMINI_API_KEY = "ISI_API_KEY_BARU_LO";
 const GEMINI_API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 // ================= UI =================
@@ -8,11 +8,8 @@ const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
 const imageUpload = document.getElementById('image-upload');
 
-const synth = window.speechSynthesis;
-
 let imageBase64Data = null;
 let imageMimeType = null;
-let isVoiceSubmission = false;
 
 const createMessageElement = (message, type) => {
     const wrapper = document.createElement('div');
@@ -45,7 +42,7 @@ const getGeminiResponse = async (userMessage) => {
                 ],
                 generationConfig: {
                     temperature: 0.7,
-                    maxOutputTokens: 500
+                    maxOutputTokens: 1000
                 }
             }),
         });
@@ -57,6 +54,7 @@ const getGeminiResponse = async (userMessage) => {
             return `Error: ${data.error.message}`;
         }
 
+        // ✅ FIX: gabung semua parts biar gak kepotong
         if (data.candidates?.length) {
             return data.candidates[0].content.parts
                 .map(p => p.text || "")
@@ -91,7 +89,10 @@ const getGeminiVisionResponse = async (userMessage, base64Image, mimeType) => {
                             }
                         ]
                     }
-                ]
+                ],
+                generationConfig: {
+                    maxOutputTokens: 1000
+                }
             }),
         });
 
@@ -99,7 +100,10 @@ const getGeminiVisionResponse = async (userMessage, base64Image, mimeType) => {
 
         if (data.error) return data.error.message;
 
-        return data.candidates?.[0]?.content?.parts?.[0]?.text
+        // ✅ FIX: jangan cuma ambil [0]
+        return data.candidates?.[0]?.content?.parts
+            ?.map(p => p.text || "")
+            .join("")
             || "Gambar tidak bisa diproses.";
 
     } catch (error) {
@@ -128,6 +132,7 @@ const handleChat = async (e) => {
 
     if (imageBase64Data) {
         botResponse = await getGeminiVisionResponse(userMessage, imageBase64Data, imageMimeType);
+        imageBase64Data = null; // reset
     } else {
         botResponse = await getGeminiResponse(userMessage);
     }
@@ -137,6 +142,7 @@ const handleChat = async (e) => {
     scrollToBottom();
 
     messageInput.disabled = false;
+    messageInput.focus();
 };
 
 // ================= IMAGE =================
