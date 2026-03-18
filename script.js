@@ -1,4 +1,4 @@
-const GEMINI_API_KEY = "AIzaSyDFx-R8FhQHV0MxDyLVBV-R_7zk_M6kv-g"; 
+const GEMINI_API_KEY = "AIzaSyA-ADQf8G35T3L6FTv9i6JIPFmquJ58qbY"; 
 const GEMINI_API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 const chatbotPopup = document.querySelector('.chatbot-popup');
