@@ -43,7 +43,7 @@ const getGeminiResponse = async (userMessage) => {
                 ],
                 generationConfig: {
                     temperature: 0.7,
-                    maxOutputTokens: 2048
+                    maxOutputTokens: 1000000000000000
                 }
             }),
         });
